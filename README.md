@@ -17,3 +17,10 @@ unit tests on the function(s).
 a project is expected to implement the package.
 
 ## The source code for `BrowserTestJS` [can be found here.](https://github.com/Cyphrme/BrowserTestJS)
+
+----------------------------------------------------------------------
+# Attribution, Trademark notice, and License
+BrowserTestJS and ExampleBrowserTestJS is released under The 3-Clause BSD License. 
+
+"Cyphr.me" is a trademark of Cypherpunk, LLC. The Cyphr.me logo is all rights
+reserved Cypherpunk, LLC and may not be used without permission.
