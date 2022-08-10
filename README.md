@@ -1,6 +1,6 @@
 # ExampleBrowserTestJS
 
-#[Link to example/live demo](https://cyphrme.github.io/BrowserTestJSExample/browsertestjs/test.html)
+# [Link to example/live demo](https://cyphrme.github.io/BrowserTestJSExample/browsertestjs/test.html)
 
 Example of using BrowserTestJS as a git submodule in a project.
 
