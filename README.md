@@ -14,7 +14,10 @@ the file that contains the function(s) to be unit tested.
 unit tests on the function(s).
 
 `BrowserTestJS` is added as a submodule in this example repo to demonstrate how
-a project is expected to implement the package.
+a project is recommended to implement the package.
+
+For an example of how to embed the `BrowserTestJS` testing page directly in
+another page, see `iframe.html.example`.
 
 ## The source code for `BrowserTestJS` [can be found here.](https://github.com/Cyphrme/BrowserTestJS)
 
