@@ -8,6 +8,12 @@ The repo exists to prevent submodule recursion.  Otherwise, this would be in `br
 
 Example of using BrowserTestJS as a git submodule in a project.
 
+BrowserTestJS was added to this example repo by using the command:
+
+```sh
+git clone git@github.com:Cyphrme/BrowserTestJS.git           browsertestjs
+```
+
 `BrowserTestJS` is added as a submodule in this example repo to demonstrate how
 a project is recommended to implement the package.
 
