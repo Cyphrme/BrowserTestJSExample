@@ -3,89 +3,106 @@
 
 Run unit tests in the browser.
 
-## [Demo](https://cyphrme.github.io/ExampleBrowserTestJS/)
+[Demo](https://cyphrme.github.io/BrowserTestJS/example/browsertest/browsertest.html)
 
-## Example from `test_unit.js` in [Coze js](https://github.com/Cyphrme/Cozejs).
+[Real use in a project](https://cyphrme.github.io/Coze_js/verifier/browsertest/browsertest.html)  (from [Coze JS](https://github.com/Cyphrme/Coze_js)).
 
-#
 
 # How to use BrowserTestJS
 
-### How to structure within a repo
-
-In this document, we will be referring to your project as `my_awesome_project`.
-
 Import BrowserTestJS as a submodule to the project.
 
-The following example will demonstrate cloning into the root of the project:
-
 ``` sh
-git submodule add git@github.com:Cyphrme/BrowserTestJS.git
+git submodule add git@github.com:Cyphrme/BrowserTestJS.git browsertest
 ```
-Which will result in the following project structure:
+
+Which will add `browsertest` to the following project:
 
 ```dir
-my_awesome_project /
+my_project/
  ├─ My_File.html
  ├─ My_File.js
  ├─ ...
- └─ BrowserTestJS /
+ └─ browsertest/
 ```
 
-Next, a `test_unit.js` file must be created above the `BrowserTestJS` directory,
-which will result in the following:
+Write tests in `test_unit.js` (above the `browsertest` directory).
+`example/test_unit.js` may be used as a starter template.
 
 ```dir
-my_awesome_project /
+my_project/
  ├─ My_File.html
  ├─ My_File.js
  ├─ ...
  ├─ test_unit.js
- └─ BrowserTestJS /
+ └─ browsertest/
 ```
 
-The file `test_unit.js` and directory `BrowserTestJS` are for browsertestjs.
 
-## To update the submodule
-When changes are made to BrowserTestJS, a project can update the changes by
-running the following command from the directory where the project's .gitmodules
-lives:
+## Updating BrowserTestJS
+A project can update by running the following command from the directory where
+`.gitmodules` exists:
 
 ```sh
 git submodule update --remote
 ```
 
-## Having issues with submodules?
-[See if this resolves the issue](https://stackoverflow.com/a/35778105/15147681)
+If the git submodule is causing issues, use `--force`:
 
-## To run tests
-You must have Go installed on your local machine.
+```
+git submodule add --force git@github.com:Cyphrme/BrowserTestJS.git verifier/browsertest
+```
+
+
+## Run tests locally with a local HTTP server
+Go must be installed.
 
 ```sh
-cd $my_awesome_project/BrowserTestJS
+cd $my_project/browsertest
 go run server.go
 ```
 
-Then, go to `localhost:8082`.  Voila! You now have unit tests for your projects
-directly in the browser.
+Then go to `localhost:8082`.  
 
-### Building `test_unit.js`
+#### Why use a Go server for testing?
+HTTPS is vital since some Javascript, especially cryptographic functions, are
+only available over HTTPS ("secure contexts").  Static HTML files cannot call
+external Javascript modules when loading static files (arbitrary
+browser/standard limitation): See [this stack
+overflow](https://stackoverflow.com/questions/46992463/es6-module-support-in-chrome-62-chrome-canary-64-does-not-work-locally-cors-er?rq=1). 
+
+> ES6 modules are subject to same-origin policy. This means that you cannot
+import them from the file system or cross-origin without a CORS header (which
+cannot be set for local files).
+
+That leaves two options:
+
+1. Run a HTTPS server.
+2. Inline all Javascript modules into a single file.  
+
+A Go server requires only a few lines of code and adds a single dependency (Go
+itself). 
+
+Alternatively, inlining all Javascript into a single `js.min` file might be
+feasible in a single page, static HTML file, then dump the results in a
+`<script>` section of `verifier/browsertest/test.html`  This isn't implemented,
+but this is how it would be done using esbuild:
+
+```sh
+esbuild join_test.js --bundle --format=esm --minify --sourcemap=inline  --outfile=test_coze.min.js
+```
+
+# Parameters for `test_unit.js`
 
 There are three parts to each test:
-1. ) Writing the "schema" of the test, which includes:
+1. Writing the "schema" of the test, which includes:
     - The Name of the test, which is the name used to differ tests and shows in browser.
     - The Function of the test, which is the test function testing something in your source code.
     - The Golden results of the test, which is the expected behavior/results from running your test function.
-2. ) Writing the test function that tests your source code.
-3. ) Invoking the test by placing the test schema in the `TestsToRun` variable.
-
-The `TestGUIOptions` is an optional parameter and is not required for
-TestBrowserJS. `TestGUIOptions` includes stylesheet options for your project.
-
-See `test_unit.js.example` for an example of a unit test file.
-
-See `test_unit.js.template` for a starting template for building a unit test
-file.
+2. Writing the test function that tests your source code.
+3. Invoking the test by placing the test schema in the `TestsToRun` variable.
+4. The `TestGUIOptions` is an optional parameter and is not required for
+   TestBrowserJS. `TestGUIOptions` includes stylesheet options for your project.
 
 
 ## Logo license
